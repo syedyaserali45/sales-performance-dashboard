@@ -21,3 +21,8 @@ Unselected files/
 
 sales-performance-dashboard/
 
+
+# Ignore nested project repo
+
+sales-performance-dashboard/
+
