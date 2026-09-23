@@ -1,0 +1,24 @@
+relationship 11111111-1111-1111-1111-111111111111
+    fromColumn: Sales.ProductID
+    toColumn: Products.ProductID
+    state: ready
+
+relationship 22222222-2222-2222-2222-222222222222
+    fromColumn: Sales.RegionID
+    toColumn: Regions.RegionID
+    state: ready
+
+relationship 33333333-3333-3333-3333-333333333333
+    fromColumn: Sales.CustomerID
+    toColumn: Customers.CustomerID
+    state: ready
+
+relationship 44444444-4444-4444-4444-444444444444
+    fromColumn: Sales.OrderDate
+    toColumn: Calendar.Date
+    state: ready
+
+relationship 55555555-5555-5555-5555-555555555555
+    fromColumn: Customers.RegionID
+    toColumn: Regions.RegionID
+    state: ready

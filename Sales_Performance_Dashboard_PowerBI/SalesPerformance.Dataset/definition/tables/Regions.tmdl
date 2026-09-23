@@ -1,0 +1,32 @@
+table Regions
+    lineageTag: regions-tag-0001
+
+    partition Regions = m
+        mode: import
+        source =
+            let
+                Source = Excel.Workbook(File.Contents("Sales_Performance_Dataset.xlsx"), null, true),
+                Regions_Sheet = Source{[Item="Regions",Kind="Sheet"]}[Data],
+                #"Promoted Headers" = Table.PromoteHeaders(Regions_Sheet, [PromoteAllScalars=true])
+            in
+                #"Promoted Headers"
+
+    column RegionID
+        dataType: string
+        sourceColumn: RegionID
+        summarizeBy: none
+
+    column RegionName
+        dataType: string
+        sourceColumn: RegionName
+        summarizeBy: none
+
+    column Manager
+        dataType: string
+        sourceColumn: Manager
+        summarizeBy: none
+
+    column Zone
+        dataType: string
+        sourceColumn: Zone
+        summarizeBy: none

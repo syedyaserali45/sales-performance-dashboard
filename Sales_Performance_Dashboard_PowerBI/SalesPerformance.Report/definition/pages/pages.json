@@ -1,0 +1,21 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/pages/2.0.0/schema.json",
+  "activePageName": "SalesOverview",
+  "pages": [
+    {
+      "displayName": "Sales Overview",
+      "name": "SalesOverview",
+      "displayOption": 1
+    },
+    {
+      "displayName": "Product Performance",
+      "name": "ProductPerf",
+      "displayOption": 1
+    },
+    {
+      "displayName": "Regional Analysis",
+      "name": "Regional",
+      "displayOption": 1
+    }
+  ]
+}

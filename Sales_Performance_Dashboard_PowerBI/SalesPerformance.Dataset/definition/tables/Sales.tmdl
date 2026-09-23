@@ -1,0 +1,112 @@
+table Sales
+    lineageTag: sales-tag-0001
+
+    partition Sales = m
+        mode: import
+        source =
+            let
+                Source = Excel.Workbook(File.Contents("Sales_Performance_Dataset.xlsx"), null, true),
+                Sales_Sheet = Source{[Item="Sales",Kind="Sheet"]}[Data],
+                #"Promoted Headers" = Table.PromoteHeaders(Sales_Sheet, [PromoteAllScalars=true])
+            in
+                #"Promoted Headers"
+
+    column OrderID
+        dataType: string
+        sourceColumn: OrderID
+        summarizeBy: none
+
+    column OrderDate
+        dataType: dateTime
+        sourceColumn: OrderDate
+        summarizeBy: none
+
+    column CustomerID
+        dataType: string
+        sourceColumn: CustomerID
+        summarizeBy: none
+
+    column ProductID
+        dataType: string
+        sourceColumn: ProductID
+        summarizeBy: none
+
+    column RegionID
+        dataType: string
+        sourceColumn: RegionID
+        summarizeBy: none
+
+    column Quantity
+        dataType: int64
+        sourceColumn: Quantity
+        summarizeBy: none
+
+    column UnitPrice
+        dataType: double
+        sourceColumn: UnitPrice
+        summarizeBy: none
+
+    column UnitCost
+        dataType: double
+        sourceColumn: UnitCost
+        summarizeBy: none
+
+    column Discount%
+        dataType: double
+        sourceColumn: Discount%
+        summarizeBy: none
+
+    column SalesAmount
+        dataType: double
+        sourceColumn: SalesAmount
+        summarizeBy: none
+
+    column CostAmount
+        dataType: double
+        sourceColumn: CostAmount
+        summarizeBy: none
+
+    column Profit
+        dataType: double
+        sourceColumn: Profit
+        summarizeBy: none
+
+    column Channel
+        dataType: string
+        sourceColumn: Channel
+        summarizeBy: none
+
+    column SalesRep
+        dataType: string
+        sourceColumn: SalesRep
+        summarizeBy: none
+
+    measure 'Total Sales' = SUM(Sales[SalesAmount])
+        formatString: #,##0.00
+
+    measure 'Total Cost' = SUM(Sales[CostAmount])
+        formatString: #,##0.00
+
+    measure 'Total Profit' = SUM(Sales[Profit])
+        formatString: #,##0.00
+
+    measure 'Total Orders' = DISTINCTCOUNT(Sales[OrderID])
+        formatString: #,##0.00
+
+    measure 'Total Quantity' = SUM(Sales[Quantity])
+        formatString: #,##0.00
+
+    measure 'Average Order Value' = DIVIDE([Total Sales], [Total Orders])
+        formatString: #,##0.00
+
+    measure 'Profit Margin %' = DIVIDE([Total Profit], [Total Sales])
+        formatString: #,##0.00
+
+    measure 'Sales 2023' = CALCULATE([Total Sales], FILTER(Calendar, Calendar[Year]=2023))
+        formatString: #,##0.00
+
+    measure 'Sales 2024' = CALCULATE([Total Sales], FILTER(Calendar, Calendar[Year]=2024))
+        formatString: #,##0.00
+
+    measure 'YoY Growth %' = DIVIDE([Sales 2024]-[Sales 2023],[Sales 2023])
+        formatString: #,##0.00

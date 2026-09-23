@@ -1,0 +1,23 @@
+# Local/editor files
+.DS_Store
+Thumbs.db
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.venv/
+.env
+.vscode/
+
+# Generated or temporary files
+*.log
+*.tmp
+*.bak
+
+# Local workspace artifacts
+Unselected files/
+
+# Nested project repo
+
+sales-performance-dashboard/
+

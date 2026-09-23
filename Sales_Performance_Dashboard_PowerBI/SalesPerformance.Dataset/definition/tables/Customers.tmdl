@@ -1,0 +1,32 @@
+table Customers
+    lineageTag: customers-tag-0001
+
+    partition Customers = m
+        mode: import
+        source =
+            let
+                Source = Excel.Workbook(File.Contents("Sales_Performance_Dataset.xlsx"), null, true),
+                Customers_Sheet = Source{[Item="Customers",Kind="Sheet"]}[Data],
+                #"Promoted Headers" = Table.PromoteHeaders(Customers_Sheet, [PromoteAllScalars=true])
+            in
+                #"Promoted Headers"
+
+    column CustomerID
+        dataType: string
+        sourceColumn: CustomerID
+        summarizeBy: none
+
+    column CustomerName
+        dataType: string
+        sourceColumn: CustomerName
+        summarizeBy: none
+
+    column Segment
+        dataType: string
+        sourceColumn: Segment
+        summarizeBy: none
+
+    column RegionID
+        dataType: string
+        sourceColumn: RegionID
+        summarizeBy: none

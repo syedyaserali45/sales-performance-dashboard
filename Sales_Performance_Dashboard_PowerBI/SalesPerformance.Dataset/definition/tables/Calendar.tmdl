@@ -1,0 +1,42 @@
+table Calendar
+    lineageTag: calendar-tag-0001
+
+    partition Calendar = m
+        mode: import
+        source =
+            let
+                Source = Excel.Workbook(File.Contents("Sales_Performance_Dataset.xlsx"), null, true),
+                Calendar_Sheet = Source{[Item="Calendar",Kind="Sheet"]}[Data],
+                #"Promoted Headers" = Table.PromoteHeaders(Calendar_Sheet, [PromoteAllScalars=true])
+            in
+                #"Promoted Headers"
+
+    column Date
+        dataType: dateTime
+        sourceColumn: Date
+        summarizeBy: none
+
+    column Year
+        dataType: int64
+        sourceColumn: Year
+        summarizeBy: none
+
+    column Month
+        dataType: int64
+        sourceColumn: Month
+        summarizeBy: none
+
+    column MonthName
+        dataType: string
+        sourceColumn: MonthName
+        summarizeBy: none
+
+    column Quarter
+        dataType: string
+        sourceColumn: Quarter
+        summarizeBy: none
+
+    column YearMonth
+        dataType: string
+        sourceColumn: YearMonth
+        summarizeBy: none

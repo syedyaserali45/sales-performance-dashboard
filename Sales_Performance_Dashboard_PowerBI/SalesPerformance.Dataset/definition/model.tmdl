@@ -1,0 +1,11 @@
+model SalesPerformance
+    culture: en-US
+    dataAccessOptions
+        legacyRedirects
+        returnErrorValuesAsNull
+    defaultPowerBIDataSourceVersion: powerBI_V3
+    sourceQueryCulture: en-US
+
+    annotation PBI_ProTooling = "{"isModelAuthoringEnabled":false}"
+
+    annotation __PBI_TimeIntelligenceEnabled = 0

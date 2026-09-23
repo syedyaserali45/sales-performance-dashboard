@@ -1,0 +1,57 @@
+
+// ============================================
+// Sales Performance Dashboard - DAX Measures
+// ============================================
+// Create these measures in your Sales table or dedicated _Measures table
+
+Total Sales = SUM(Sales[SalesAmount])
+
+Total Cost = SUM(Sales[CostAmount])
+
+Total Profit = SUM(Sales[Profit])
+
+Total Orders = DISTINCTCOUNT(Sales[OrderID])
+
+Total Quantity = SUM(Sales[Quantity])
+
+Average Order Value = DIVIDE([Total Sales], [Total Orders])
+
+Profit Margin % = DIVIDE([Total Profit], [Total Sales])
+
+Average Discount % = AVERAGE(Sales[Discount%])
+
+// Time Intelligence
+Sales 2023 = CALCULATE([Total Sales], FILTER(Calendar, Calendar[Year]=2023))
+
+Sales 2024 = CALCULATE([Total Sales], FILTER(Calendar, Calendar[Year]=2024))
+
+YoY Growth % = DIVIDE([Sales 2024] - [Sales 2023], [Sales 2023])
+
+Sales YTD = TOTALYTD([Total Sales], Calendar[Date])
+
+Sales MTD = TOTALMTD([Total Sales], Calendar[Date])
+
+Profit YTD = TOTALYTD([Total Profit], Calendar[Date])
+
+// Category & Region
+Sales by Category = CALCULATE([Total Sales], ALLEXCEPT(Products, Products[Category]))
+
+Top Product Sales = MAXX(TOPN(1, ADDCOLUMNS(VALUES(Products[ProductName]), "@Sales", [Total Sales]), [@Sales], DESC), [@Sales])
+
+// Channel Performance
+Online Sales % = DIVIDE(CALCULATE([Total Sales], Sales[Channel]="Online"), [Total Sales])
+
+// Customer Segmentation
+Enterprise Sales = CALCULATE([Total Sales], Customers[Segment]="Enterprise")
+
+SMB Sales = CALCULATE([Total Sales], Customers[Segment]="SMB")
+
+Consumer Sales = CALCULATE([Total Sales], Customers[Segment]="Consumer")
+
+// Profitability
+Profit per Order = DIVIDE([Total Profit], [Total Orders])
+
+// Ranking
+Product Rank = RANKX(ALL(Products[ProductName]), [Total Sales], , DESC, DENSE)
+
+Region Rank = RANKX(ALL(Regions[RegionName]), [Total Sales], , DESC)

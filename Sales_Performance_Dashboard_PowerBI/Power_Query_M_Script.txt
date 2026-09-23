@@ -1,0 +1,62 @@
+
+// ============================================
+// Power Query M Scripts for Sales Performance Dashboard
+// ============================================
+
+// --- Products ---
+let
+    Source = Excel.Workbook(File.Contents("Sales_Performance_Dataset.xlsx"), null, true),
+    Products_Sheet = Source{[Item="Products",Kind="Sheet"]}[Data],
+    PromotedHeaders = Table.PromoteHeaders(Products_Sheet, [PromoteAllScalars=true]),
+    ChangedType = Table.TransformColumnTypes(PromotedHeaders,{
+        {"ProductID", type text}, {"ProductName", type text}, {"Category", type text},
+        {"UnitCost", Int64.Type}, {"UnitPrice", Int64.Type}
+    })
+in
+    ChangedType
+
+// --- Regions ---
+let
+    Source = Excel.Workbook(File.Contents("Sales_Performance_Dataset.xlsx"), null, true),
+    Regions_Sheet = Source{[Item="Regions",Kind="Sheet"]}[Data],
+    PromotedHeaders = Table.PromoteHeaders(Regions_Sheet, [PromoteAllScalars=true])
+in
+    PromotedHeaders
+
+// --- Customers ---
+let
+    Source = Excel.Workbook(File.Contents("Sales_Performance_Dataset.xlsx"), null, true),
+    Customers_Sheet = Source{[Item="Customers",Kind="Sheet"]}[Data],
+    PromotedHeaders = Table.PromoteHeaders(Customers_Sheet, [PromoteAllScalars=true])
+in
+    PromotedHeaders
+
+// --- Calendar ---
+let
+    Source = Excel.Workbook(File.Contents("Sales_Performance_Dataset.xlsx"), null, true),
+    Calendar_Sheet = Source{[Item="Calendar",Kind="Sheet"]}[Data],
+    PromotedHeaders = Table.PromoteHeaders(Calendar_Sheet, [PromoteAllScalars=true]),
+    ChangedType = Table.TransformColumnTypes(PromotedHeaders,{
+        {"Date", type date}, {"Year", Int64.Type}, {"Month", Int64.Type},
+        {"MonthName", type text}, {"Quarter", type text}, {"YearMonth", type text}
+    })
+in
+    ChangedType
+
+// --- Sales (Fact) ---
+let
+    Source = Excel.Workbook(File.Contents("Sales_Performance_Dataset.xlsx"), null, true),
+    Sales_Sheet = Source{[Item="Sales",Kind="Sheet"]}[Data],
+    PromotedHeaders = Table.PromoteHeaders(Sales_Sheet, [PromoteAllScalars=true]),
+    ChangedType = Table.TransformColumnTypes(PromotedHeaders,{
+        {"OrderID", type text}, {"OrderDate", type date}, {"CustomerID", type text},
+        {"ProductID", type text}, {"RegionID", type text}, {"Quantity", Int64.Type},
+        {"UnitPrice", type number}, {"UnitCost", type number}, {"Discount%", type number},
+        {"SalesAmount", type number}, {"CostAmount", type number}, {"Profit", type number},
+        {"Channel", type text}, {"SalesRep", type text}
+    }),
+    // Add calculated columns
+    AddedYear = Table.AddColumn(ChangedType, "Year", each Date.Year([OrderDate]), Int64.Type),
+    AddedMonth = Table.AddColumn(AddedYear, "Month", each Date.Month([OrderDate]), Int64.Type)
+in
+    AddedMonth

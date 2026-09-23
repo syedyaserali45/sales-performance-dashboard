@@ -1,0 +1,14 @@
+{
+  "version": "1.0",
+  "artifacts": [
+    {
+      "type": "dataset",
+      "path": "SalesPerformance.Dataset"
+    },
+    {
+      "type": "report",
+      "path": "SalesPerformance.Report"
+    }
+  ],
+  "settings": {}
+}
